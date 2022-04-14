@@ -1,0 +1,194 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+h1 {
+  margin: 2rem;
+  margin-bottom: 5rem;
+}
+
+.Home-form {
+  background-color: #2c83b1;
+  width: 30%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  padding: 6rem;
+  padding-top: 4rem;
+}
+
+.Home-form .buttons {
+  width: 100%;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+}
+
+.Lobby {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  max-height: 80vh;
+}
+
+.Lobby .vertical-container {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.Lobby .vertical-container .user {
+  background-color: grey;
+  width: 25vw;
+  height: 50vh;
+  margin: 1rem;
+}
+
+.Lobby .vertical-container .match-type {
+  background-color: grey;
+  width: 25vw;
+  height: 30vh;
+  margin: 1rem;
+}
+
+.Lobby .matches {
+  background-color: grey;
+  width: 60vw;
+  height: auto;
+  max-height: 100%;
+  margin: 1rem;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  overflow-y: scroll;
+}
+
+.Lobby .matches::-webkit-scrollbar {
+  display: none;
+}
+
+.Lobby .matches .test-card {
+  background-color: rgba(0, 0, 0, 0.493);
+  width: 10rem;
+  height: 10rem;
+  margin: 1.5rem;
+}
+
+.Store {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  max-height: 80vh;
+}
+
+.Store .vertical-container {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.Store .vertical-container .user {
+  background-color: grey;
+  width: 25vw;
+  height: 50vh;
+  margin: 1rem;
+}
+
+.Store .vertical-container .purchase-item {
+  background-color: grey;
+  width: 25vw;
+  height: 30vh;
+  margin: 1rem;
+}
+
+.Store .items {
+  background-color: grey;
+  width: 60vw;
+  height: auto;
+  max-height: 100%;
+  margin: 1rem;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  overflow-y: scroll;
+}
+
+.Store .items::-webkit-scrollbar {
+  display: none;
+}
+
+.Store .items .test-card {
+  background-color: rgba(0, 0, 0, 0.5);
+  width: 10rem;
+  height: 10rem;
+  margin: 1.5rem;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  position: relative;
+  cursor: pointer;
+  -webkit-transition: 200ms;
+  transition: 200ms;
+}
+
+.Store .items .test-card:hover {
+  background-color: rgba(255, 255, 255, 0.5);
+}
+
+.Store .items .test-card:hover .item-title {
+  -webkit-transition: 200ms;
+  transition: 200ms;
+  color: black;
+}
+
+.Store .items .test-card .item-title {
+  color: white;
+  font-size: 1rem;
+  position: absolute;
+  top: 0;
+}
+
+.Match .canvas {
+  background-color: rgba(0, 0, 0, 0.493);
+}
+/*# sourceMappingURL=components.css.map */

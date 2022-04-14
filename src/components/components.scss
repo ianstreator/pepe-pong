@@ -1,0 +1,135 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+h1 {
+  margin: 2rem;
+  margin-bottom: 5rem;
+}
+
+.Home-form {
+  background-color: rgb(44, 131, 177);
+  width: 30%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 6rem;
+  padding-top: 4rem;
+  .buttons {
+    width: 100%;
+    justify-content: space-between;
+  }
+}
+
+.Lobby {
+  display: flex;
+  max-height: 80vh;
+  .vertical-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    .user {
+      background-color: grey;
+      width: 25vw;
+      height: 50vh;
+      margin: 1rem;
+    }
+    .match-type {
+      background-color: grey;
+      width: 25vw;
+      height: 30vh;
+      margin: 1rem;
+    }
+  }
+
+  .matches {
+    background-color: grey;
+    width: 60vw;
+    height: auto;
+    max-height: 100%;
+    margin: 1rem;
+    display: flex;
+    flex-wrap: wrap;
+    overflow-y: scroll;
+    &::-webkit-scrollbar {
+      display: none;
+    }
+    .test-card {
+      background-color: rgba(0, 0, 0, 0.493);
+      width: 10rem;
+      height: 10rem;
+      margin: 1.5rem;
+    }
+  }
+}
+
+.Store {
+  display: flex;
+  max-height: 80vh;
+  .vertical-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    .user {
+      background-color: grey;
+      width: 25vw;
+      height: 50vh;
+      margin: 1rem;
+    }
+    .purchase-item {
+      background-color: grey;
+      width: 25vw;
+      height: 30vh;
+      margin: 1rem;
+    }
+  }
+
+  .items {
+    background-color: grey;
+    width: 60vw;
+    height: auto;
+    max-height: 100%;
+    margin: 1rem;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    overflow-y: scroll;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+    .test-card {
+      background-color: rgba(0, 0, 0, 0.5);
+      width: 10rem;
+      height: 10rem;
+      margin: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      cursor: pointer;
+      transition: 200ms;
+      &:hover {
+        background-color: rgba(255, 255, 255, 0.5);
+        .item-title {
+          transition: 200ms;
+          color: black;
+        }
+      }
+      .item-title {
+        color: white;
+        font-size: 1rem;
+        position: absolute;
+        top: 0;
+      }
+    }
+  }
+}
+
+.Match {
+  .canvas {
+    background-color: rgba(0, 0, 0, 0.493);
+  }
+}
