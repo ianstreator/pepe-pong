@@ -15,11 +15,11 @@ function App() {
     <div className="App">
       <Router>
         <Routes>
-          <Route path="/" element={[<Login />, <Toast />]} />
-          <Route path="/Register" element={[<Register />, <Toast />]} />
-          <Route path="/Lobby" element={[<Lobby />, <Toast />]} />
-          <Route path="/Store" element={[<Store />, <Toast />]} />
-          <Route path="/Match" element={[<Match />, <Toast />]} />
+          <Route path="/" element={[<Login key={1} />, <Toast key={2} />]} />
+          <Route path="/Register" element={[<Register key={1} />, <Toast key={2} />]} />
+          <Route path="/Lobby" element={[<Lobby key={1} />, <Toast key={2} />]} />
+          <Route path="/Store" element={[<Store key={1} />, <Toast key={2} />]} />
+          <Route path="/Match" element={[<Match key={1} />, <Toast key={2} />]} />
         </Routes>
       </Router>
     </div>

@@ -4,7 +4,7 @@ import "react-toastify/dist/ReactToastify.css";
 function App() {
   return (
     <div>
-      <ToastContainer theme="colored" limit={4}/>
+      <ToastContainer theme="colored"/>
     </div>
   );
 }

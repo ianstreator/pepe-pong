@@ -7,7 +7,11 @@ import impossible_hat_1 from "./hat-impossible-1.svg";
 import common_paddle_1 from "./paddle-common-1.svg";
 import common_paddle_2 from "./paddle-common-2.svg";
 import common_paddle_3 from "./paddle-common-3.svg";
-
+import uncommon_paddle_1 from "./paddle-uncommon-1.svg";
+import rare_paddle_1 from "./paddle-rare-1.svg";
+import rare_paddle_2 from "./paddle-rare-2.svg";
+import rare_paddle_3 from "./paddle-rare-3.svg";
+import impossible_paddle_1 from "./paddle-impossible-1.svg";
 
 const items = {
   common_hat_1: common_hat_1,
@@ -18,7 +22,28 @@ const items = {
   common_paddle_1: common_paddle_1,
   common_paddle_2: common_paddle_2,
   common_paddle_3: common_paddle_3,
-
+  uncommon_paddle_1: uncommon_paddle_1,
+  rare_paddle_1: rare_paddle_1,
+  rare_paddle_2: rare_paddle_2,
+  rare_paddle_3: rare_paddle_3,
+  impossible_paddle_1: impossible_paddle_1,
 };
+// const items = {
+//   Hats: {
+//     common: [common_hat_1],
+//     uncommon: [uncommon_hat_1, uncommon_hat_2],
+//     rare: [rare_hat_1],
+//     impossible: [impossible_hat_1],
+//   },
+//   //   Torsos: {
+//   //     rare_paddle_1: rare_paddle_1,
+//   //   },
+//   Paddles: {
+//     common: [common_paddle_1, common_paddle_2, common_paddle_3],
+//     uncommon: [uncommon_paddle_1],
+//     rare: [rare_paddle_1, rare_paddle_2, rare_paddle_3],
+//     impossible: [impossible_paddle_1],
+//   },
+// };
 
 export default { items };

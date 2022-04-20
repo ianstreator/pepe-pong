@@ -172,13 +172,7 @@ h1 {
 }
 
 .Store .items .test-card:hover {
-  background-color: rgba(255, 255, 255, 0.5);
-}
-
-.Store .items .test-card:hover .item-title {
-  -webkit-transition: 200ms;
-  transition: 200ms;
-  color: black;
+  background-color: rgba(0, 0, 0, 0.75);
 }
 
 .Store .items .test-card .item-title {
@@ -186,6 +180,18 @@ h1 {
   font-size: 1rem;
   position: absolute;
   top: 0;
+}
+
+.Store .items .test-card .item-title.uncommon {
+  color: #5b94ff;
+}
+
+.Store .items .test-card .item-title.rare {
+  color: #ffd000;
+}
+
+.Store .items .test-card .item-title.impossible {
+  color: #ff95a7;
 }
 
 .Match .canvas {
