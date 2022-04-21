@@ -28,22 +28,5 @@ const items = {
   rare_paddle_3: rare_paddle_3,
   impossible_paddle_1: impossible_paddle_1,
 };
-// const items = {
-//   Hats: {
-//     common: [common_hat_1],
-//     uncommon: [uncommon_hat_1, uncommon_hat_2],
-//     rare: [rare_hat_1],
-//     impossible: [impossible_hat_1],
-//   },
-//   //   Torsos: {
-//   //     rare_paddle_1: rare_paddle_1,
-//   //   },
-//   Paddles: {
-//     common: [common_paddle_1, common_paddle_2, common_paddle_3],
-//     uncommon: [uncommon_paddle_1],
-//     rare: [rare_paddle_1, rare_paddle_2, rare_paddle_3],
-//     impossible: [impossible_paddle_1],
-//   },
-// };
 
 export default { items };

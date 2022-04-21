@@ -30,7 +30,6 @@ function Lobby() {
           key={3}
           className={"matches"}
           children={
-            // <Card key={0} className={"test-card"}/>
             items.map((item) => {
               return <Card key={item.key} className={item.class} />;
             })

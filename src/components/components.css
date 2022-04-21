@@ -1,15 +1,34 @@
 * {
   margin: 0;
   padding: 0;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+}
+
+body {
+  background-color: #2e383b;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
 }
 
 h1 {
   margin: 2rem;
   margin-bottom: 5rem;
+  color: white;
 }
 
 .Home-form {
-  background-color: #2c83b1;
+  background-color: grey;
   width: 30%;
   display: -webkit-box;
   display: -ms-flexbox;
@@ -50,28 +69,45 @@ h1 {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
+  width: 25rem;
+  min-width: 25rem;
+  margin-left: 1rem;
 }
 
 .Lobby .vertical-container .user {
   background-color: grey;
-  width: 25vw;
+  min-width: 100%;
   height: 50vh;
   margin: 1rem;
+  margin-bottom: 0.5rem;
 }
 
 .Lobby .vertical-container .match-type {
   background-color: grey;
-  width: 25vw;
+  min-width: 100%;
   height: 30vh;
   margin: 1rem;
+  margin-top: 0.5rem;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
 }
 
 .Lobby .matches {
   background-color: grey;
-  width: 60vw;
+  min-width: 30rem;
+  max-width: 55rem;
   height: auto;
   max-height: 100%;
   margin: 1rem;
+  padding: 1rem;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -86,8 +122,8 @@ h1 {
 
 .Lobby .matches .test-card {
   background-color: rgba(0, 0, 0, 0.493);
-  width: 10rem;
-  height: 10rem;
+  width: 100%;
+  height: 5rem;
   margin: 1.5rem;
 }
 
@@ -109,35 +145,72 @@ h1 {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
+  width: 25rem;
+  min-width: 25rem;
+  margin-left: 1rem;
 }
 
 .Store .vertical-container .user {
   background-color: grey;
-  width: 25vw;
+  min-width: 100%;
   height: 50vh;
   margin: 1rem;
+  margin-bottom: 0.5rem;
 }
 
 .Store .vertical-container .purchase-item {
   background-color: grey;
-  width: 25vw;
+  min-width: 100%;
   height: 30vh;
+  margin: 1rem;
+  margin-top: 0.5rem;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.Store .vertical-container .purchase-item .test-card {
+  height: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  color: white;
+}
+
+.Store .vertical-container .purchase-item .test-card h2 {
   margin: 1rem;
 }
 
 .Store .items {
   background-color: grey;
-  width: 60vw;
+  min-width: 30rem;
+  max-width: 55rem;
   height: auto;
   max-height: 100%;
   margin: 1rem;
+  padding: 1rem;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  -webkit-box-orient: horizontal;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: row;
-          flex-direction: row;
+  -ms-flex-pack: distribute;
+      justify-content: space-around;
   -ms-flex-wrap: wrap;
       flex-wrap: wrap;
   overflow-y: scroll;
@@ -152,6 +225,7 @@ h1 {
   width: 10rem;
   height: 10rem;
   margin: 1.5rem;
+  margin-right: auto;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -162,9 +236,8 @@ h1 {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
+  -ms-flex-pack: distribute;
+      justify-content: space-around;
   position: relative;
   cursor: pointer;
   -webkit-transition: 200ms;
@@ -175,11 +248,13 @@ h1 {
   background-color: rgba(0, 0, 0, 0.75);
 }
 
+.Store .items .test-card .cost {
+  color: #75bb75;
+}
+
 .Store .items .test-card .item-title {
   color: white;
-  font-size: 1rem;
-  position: absolute;
-  top: 0;
+  font-size: 1.25rem;
 }
 
 .Store .items .test-card .item-title.uncommon {
@@ -195,6 +270,6 @@ h1 {
 }
 
 .Match .canvas {
-  background-color: rgba(0, 0, 0, 0.493);
+  background-color: grey;
 }
 /*# sourceMappingURL=components.css.map */
