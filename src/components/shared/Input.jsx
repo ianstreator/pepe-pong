@@ -5,11 +5,20 @@ const inputDefaults = {
   minWidth: "100%",
   minHeight: "2.5rem",
   textIndent: ".5rem",
-  margin: "1rem"
+  margin: "1rem",
 };
 
-function Input({maxLength, type, placeholder}) {
-  return <input style={inputDefaults} type={type} maxLength={maxLength} placeholder={placeholder}></input>;
+function Input({ maxLength, type, placeholder, onChange, value }) {
+  return (
+    <input
+      onChange={onChange}
+      style={inputDefaults}
+      type={type}
+      maxLength={maxLength}
+      placeholder={placeholder}
+      value={value}
+    ></input>
+  );
 }
 
 export default Input;

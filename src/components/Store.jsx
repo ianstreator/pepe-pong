@@ -1,17 +1,22 @@
 import images from "../images/export.js";
-// console.log(images);
 
 import Container from "./shared/Container";
 import Button from "./shared/Button";
 import Card from "./shared/Card";
 import { toast } from "react-toastify";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 function Store() {
-  const [purchaseItem, setPurchaseItem] = useState(<h1>select an item</h1>);
-  const cancel = () => {
-    setPurchaseItem(<h1>select an item</h1>);
+  const navigate = useNavigate();
+  const navLobby = () => {
+    navigate("/lobby");
   };
+  const [purchaseItem, setPurchaseItem] = useState("select an item");
+  const cancel = () => {
+    setPurchaseItem("select an item");
+  };
+  const display = purchaseItem === "select an item" ? "hidden" : null;
 
   const storeItems = Object.entries(images.items).map((e, i) => {
     const title = e[0].split("_")[0];
@@ -25,10 +30,7 @@ function Store() {
       setPurchaseItem(
         <Card
           className={"test-card"}
-          children={[
-            <h2 key={i}>{title}</h2>,
-            <img key={i + 1} src={e[1]} width={125}></img>,
-          ]}
+          children={<img key={i + 1} src={e[1]} width={125}></img>}
         />
       );
     }
@@ -61,7 +63,15 @@ function Store() {
             <Container
               key={1}
               className={"user"}
-              children={<Card className={"currency"} />}
+              children={[
+                <img
+                  key={1}
+                  src={images.pepe}
+                  className={"pepe"}
+                  width={250}
+                ></img>,
+                <Button key={2} onClick={navLobby} children={"Lobby"} />,
+              ]}
             />,
             <Container
               key={2}
@@ -71,8 +81,17 @@ function Store() {
                 <Container
                   key={2}
                   children={[
-                    <Button key={1} children={"Purchase"} />,
-                    <Button key={2} children={"Cancel"} onClick={cancel} />,
+                    <Button
+                      key={1}
+                      className={display}
+                      children={"Purchase"}
+                    />,
+                    <Button
+                      key={2}
+                      className={display}
+                      children={"Cancel"}
+                      onClick={cancel}
+                    />,
                   ]}
                 />,
               ]}

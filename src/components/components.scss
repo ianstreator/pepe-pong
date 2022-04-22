@@ -47,6 +47,13 @@ h1 {
       height: 50vh;
       margin: 1rem;
       margin-bottom: 0.5rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      .pepe {
+        box-shadow: 0px 4px 2px -2px rgba(0, 0, 0, 0.5);
+      }
     }
     .match-type {
       background-color: grey;
@@ -99,6 +106,13 @@ h1 {
       height: 50vh;
       margin: 1rem;
       margin-bottom: 0.5rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      .pepe {
+        box-shadow: 0px 4px 2px -2px rgba(0, 0, 0, 0.5);
+      }
     }
     .purchase-item {
       background-color: grey;
@@ -109,13 +123,18 @@ h1 {
       display: flex;
       flex-direction: column;
       align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 1.5rem;
+      .hidden {
+        display: none;
+      }
       .test-card {
         height: 100%;
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        color: white;
         h2 {
           margin: 1rem;
         }
