@@ -1,14 +1,16 @@
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { toast } from "react-toastify";
 
 import Container from "./shared/Container";
 import Input from "./shared/Input";
 import Button from "./shared/Button";
+import SocketContext from "../context/socketContext";
 
 function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const { socketJoin } = useContext(SocketContext);
   const handleTextChange = (e) => {
     e.target.type === "password"
       ? setPassword(e.target.value)
@@ -36,10 +38,11 @@ function Login() {
     if (username === "" || password === "") return;
     const res = await fetch("http://localhost:4000/login", options);
     if (res.status === 400) {
-      toast.error("username or password was incorrect..");
+      toast.error("username or password was invalid..");
       setUsername("");
       setPassword("");
     } else if (res.status === 200) {
+      await socketJoin(username);
       navigate("/lobby");
     }
     console.log(res.status);

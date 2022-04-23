@@ -9,9 +9,13 @@ const buttonDefaults = {
   fontFamily: "cursive",
 };
 
-function Button({ children, onClick, className }) {
+function Button({ children, onClick, className, style }) {
   return (
-    <button style={buttonDefaults} onClick={onClick} className={className}>
+    <button
+      style={style || buttonDefaults}
+      onClick={onClick}
+      className={className}
+    >
       {children}
     </button>
   );

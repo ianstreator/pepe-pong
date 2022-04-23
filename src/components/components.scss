@@ -4,6 +4,10 @@
   user-select: none;
 }
 
+:root {
+  --container-color: rgb(73, 73, 73);
+}
+
 body {
   background-color: rgb(46, 56, 59);
   display: flex;
@@ -18,7 +22,7 @@ h1 {
 }
 
 .Home-form {
-  background-color: grey;
+  background-color: var(--container-color);
   width: 30%;
   display: flex;
   flex-direction: column;
@@ -42,7 +46,7 @@ h1 {
     min-width: 25rem;
     margin-left: 1rem;
     .user {
-      background-color: grey;
+      background-color: var(--container-color);
       min-width: 100%;
       height: 50vh;
       margin: 1rem;
@@ -56,7 +60,7 @@ h1 {
       }
     }
     .match-type {
-      background-color: grey;
+      background-color: var(--container-color);
       min-width: 100%;
       height: 30vh;
       margin: 1rem;
@@ -68,7 +72,7 @@ h1 {
   }
 
   .matches {
-    background-color: grey;
+    background-color: var(--container-color);
     min-width: 30rem;
     max-width: 55rem;
     height: auto;
@@ -101,7 +105,7 @@ h1 {
     min-width: 25rem;
     margin-left: 1rem;
     .user {
-      background-color: grey;
+      background-color: var(--container-color);
       min-width: 100%;
       height: 50vh;
       margin: 1rem;
@@ -115,7 +119,7 @@ h1 {
       }
     }
     .purchase-item {
-      background-color: grey;
+      background-color: var(--container-color);
       min-width: 100%;
       height: 30vh;
       margin: 1rem;
@@ -126,10 +130,13 @@ h1 {
       justify-content: center;
       color: white;
       font-size: 1.5rem;
-      .hidden {
-        display: none;
+      .purchase-btn {
+        background-color: rgb(117, 187, 117);
       }
-      .test-card {
+      .cancel-btn {
+        background-color: rgb(190, 122, 122);
+      }
+      .purchase-card {
         height: 100%;
         display: flex;
         flex-direction: column;
@@ -143,7 +150,7 @@ h1 {
   }
 
   .items {
-    background-color: grey;
+    background-color: var(--container-color);
     min-width: 30rem;
     max-width: 55rem;
     height: auto;
@@ -157,7 +164,7 @@ h1 {
     &::-webkit-scrollbar {
       display: none;
     }
-    .test-card {
+    .item-card {
       background-color: rgba(0, 0, 0, 0.5);
       width: 10rem;
       height: 10rem;

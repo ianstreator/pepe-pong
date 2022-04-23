@@ -7,6 +7,10 @@
           user-select: none;
 }
 
+:root {
+  --container-color: rgb(73, 73, 73);
+}
+
 body {
   background-color: #2e383b;
   display: -webkit-box;
@@ -28,7 +32,7 @@ h1 {
 }
 
 .Home-form {
-  background-color: grey;
+  background-color: var(--container-color);
   width: 30%;
   display: -webkit-box;
   display: -ms-flexbox;
@@ -75,7 +79,7 @@ h1 {
 }
 
 .Lobby .vertical-container .user {
-  background-color: grey;
+  background-color: var(--container-color);
   min-width: 100%;
   height: 50vh;
   margin: 1rem;
@@ -101,7 +105,7 @@ h1 {
 }
 
 .Lobby .vertical-container .match-type {
-  background-color: grey;
+  background-color: var(--container-color);
   min-width: 100%;
   height: 30vh;
   margin: 1rem;
@@ -119,7 +123,7 @@ h1 {
 }
 
 .Lobby .matches {
-  background-color: grey;
+  background-color: var(--container-color);
   min-width: 30rem;
   max-width: 55rem;
   height: auto;
@@ -169,7 +173,7 @@ h1 {
 }
 
 .Store .vertical-container .user {
-  background-color: grey;
+  background-color: var(--container-color);
   min-width: 100%;
   height: 50vh;
   margin: 1rem;
@@ -195,7 +199,7 @@ h1 {
 }
 
 .Store .vertical-container .purchase-item {
-  background-color: grey;
+  background-color: var(--container-color);
   min-width: 100%;
   height: 30vh;
   margin: 1rem;
@@ -217,11 +221,15 @@ h1 {
   font-size: 1.5rem;
 }
 
-.Store .vertical-container .purchase-item .hidden {
-  display: none;
+.Store .vertical-container .purchase-item .purchase-btn {
+  background-color: #75bb75;
 }
 
-.Store .vertical-container .purchase-item .test-card {
+.Store .vertical-container .purchase-item .cancel-btn {
+  background-color: #be7a7a;
+}
+
+.Store .vertical-container .purchase-item .purchase-card {
   height: 100%;
   display: -webkit-box;
   display: -ms-flexbox;
@@ -238,12 +246,12 @@ h1 {
           justify-content: center;
 }
 
-.Store .vertical-container .purchase-item .test-card h2 {
+.Store .vertical-container .purchase-item .purchase-card h2 {
   margin: 1rem;
 }
 
 .Store .items {
-  background-color: grey;
+  background-color: var(--container-color);
   min-width: 30rem;
   max-width: 55rem;
   height: auto;
@@ -264,7 +272,7 @@ h1 {
   display: none;
 }
 
-.Store .items .test-card {
+.Store .items .item-card {
   background-color: rgba(0, 0, 0, 0.5);
   width: 10rem;
   height: 10rem;
@@ -288,28 +296,28 @@ h1 {
   transition: 200ms;
 }
 
-.Store .items .test-card:hover {
+.Store .items .item-card:hover {
   background-color: rgba(0, 0, 0, 0.75);
 }
 
-.Store .items .test-card .cost {
+.Store .items .item-card .cost {
   color: #75bb75;
 }
 
-.Store .items .test-card .item-title {
+.Store .items .item-card .item-title {
   color: white;
   font-size: 1.25rem;
 }
 
-.Store .items .test-card .item-title.uncommon {
+.Store .items .item-card .item-title.uncommon {
   color: #5b94ff;
 }
 
-.Store .items .test-card .item-title.rare {
+.Store .items .item-card .item-title.rare {
   color: #ffd000;
 }
 
-.Store .items .test-card .item-title.impossible {
+.Store .items .item-card .item-title.impossible {
   color: #ff95a7;
 }
 

@@ -1,13 +1,18 @@
+import { toast } from "react-toastify";
+import { useState, useEffect, useContext } from "react";
+import { useNavigate } from "react-router-dom";
+
 import images from "../images/export.js";
 
 import Container from "./shared/Container";
 import Button from "./shared/Button";
 import Card from "./shared/Card";
-import { toast } from "react-toastify";
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+
+import SocketContext from "../context/socketContext";
 
 function Store() {
+  const { socket } = useContext(SocketContext);
+
   const navigate = useNavigate();
   const navLobby = () => {
     navigate("/lobby");
@@ -16,7 +21,9 @@ function Store() {
   const cancel = () => {
     setPurchaseItem("select an item");
   };
-  const display = purchaseItem === "select an item" ? "hidden" : null;
+  const purchase = async () => {
+    socket.emit("purchase", purchaseItem);
+  };
 
   const storeItems = Object.entries(images.items).map((e, i) => {
     const title = e[0].split("_")[0];
@@ -29,16 +36,24 @@ function Store() {
     function select() {
       setPurchaseItem(
         <Card
-          className={"test-card"}
+          className={"purchase-card"}
           children={<img key={i + 1} src={e[1]} width={125}></img>}
         />
       );
     }
 
+    useEffect(() => {
+      socket.on("purchase-response", (data) => {
+        data
+          ? toast.success("item purchased!")
+          : toast.error("not enough funds..");
+      });
+    }, [socket]);
+
     return (
       <Card
         key={i}
-        className={"test-card"}
+        className={"item-card"}
         onClick={select}
         children={[
           <h2 key={i} className={`item-title ${title}`}>
@@ -53,6 +68,10 @@ function Store() {
     );
   });
 
+  let hide = {
+    display: "none",
+  };
+  if (purchaseItem !== "select an item") hide = null;
   return (
     <>
       <h1>Store</h1>
@@ -83,12 +102,15 @@ function Store() {
                   children={[
                     <Button
                       key={1}
-                      className={display}
+                      style={hide}
+                      className={"purchase-btn"}
                       children={"Purchase"}
+                      onClick={purchase}
                     />,
                     <Button
                       key={2}
-                      className={display}
+                      style={hide}
+                      className={"cancel-btn"}
                       children={"Cancel"}
                       onClick={cancel}
                     />,
