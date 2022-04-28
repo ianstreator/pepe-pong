@@ -5,6 +5,7 @@ const SocketContext = createContext();
 
 export const SocketProvider = ({ children }) => {
   const [socket, setSocket] = useState(null);
+  const [matchKey, setMatchKey] = useState(null);
   const [username, setUsername] = useState("");
 
   const socketJoin = (username) => {
@@ -21,6 +22,8 @@ export const SocketProvider = ({ children }) => {
         username,
         socket,
         socketJoin,
+        matchKey,
+        setMatchKey,
       }}
     >
       {children}

@@ -12,6 +12,7 @@ import SocketContext from "../context/socketContext";
 
 function Store() {
   const { socket } = useContext(SocketContext);
+  if (!socket) window.location.href = "/";
 
   const navigate = useNavigate();
   const navLobby = () => {

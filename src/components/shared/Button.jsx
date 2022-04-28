@@ -7,14 +7,17 @@ const buttonDefaults = {
   margin: "1rem",
   padding: "1rem",
   fontFamily: "cursive",
+  fontSize: "1.5rem",
+  transition: "300ms"
 };
 
-function Button({ children, onClick, className, style }) {
+function Button({ children, onClick, className, style, value }) {
   return (
     <button
       style={style || buttonDefaults}
       onClick={onClick}
       className={className}
+      value={value}
     >
       {children}
     </button>

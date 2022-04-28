@@ -61,6 +61,7 @@ h1 {
     }
     .match-type {
       background-color: var(--container-color);
+      color: white;
       min-width: 100%;
       height: 30vh;
       margin: 1rem;
@@ -68,6 +69,26 @@ h1 {
       display: flex;
       flex-direction: column;
       align-items: center;
+      h1 {
+        margin-bottom: 3rem;
+      }
+      .buttons {
+        display: flex;
+        .casual {
+          background-color: rgb(47, 47, 70);
+          color: plum;
+          &:hover {
+            background-color: rgb(65, 65, 97);
+          }
+        }
+        .wager {
+          background-color: rgb(33, 46, 31);
+          color: rgb(123, 216, 123);
+          &:hover {
+            background-color: rgb(49, 68, 47);
+          }
+        }
+      }
     }
   }
 
@@ -85,7 +106,7 @@ h1 {
     &::-webkit-scrollbar {
       display: none;
     }
-    .test-card {
+    .match-card {
       background-color: rgba(0, 0, 0, 0.493);
       width: 100%;
       height: 5rem;

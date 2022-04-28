@@ -106,6 +106,7 @@ h1 {
 
 .Lobby .vertical-container .match-type {
   background-color: var(--container-color);
+  color: white;
   min-width: 100%;
   height: 30vh;
   margin: 1rem;
@@ -120,6 +121,34 @@ h1 {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
+}
+
+.Lobby .vertical-container .match-type h1 {
+  margin-bottom: 3rem;
+}
+
+.Lobby .vertical-container .match-type .buttons {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.Lobby .vertical-container .match-type .buttons .casual {
+  background-color: #2f2f46;
+  color: plum;
+}
+
+.Lobby .vertical-container .match-type .buttons .casual:hover {
+  background-color: #414161;
+}
+
+.Lobby .vertical-container .match-type .buttons .wager {
+  background-color: #212e1f;
+  color: #7bd87b;
+}
+
+.Lobby .vertical-container .match-type .buttons .wager:hover {
+  background-color: #31442f;
 }
 
 .Lobby .matches {
@@ -142,7 +171,7 @@ h1 {
   display: none;
 }
 
-.Lobby .matches .test-card {
+.Lobby .matches .match-card {
   background-color: rgba(0, 0, 0, 0.493);
   width: 100%;
   height: 5rem;
