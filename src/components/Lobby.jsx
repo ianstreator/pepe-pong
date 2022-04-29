@@ -13,7 +13,7 @@ import { useNavigate } from "react-router-dom";
 function Lobby() {
   const [matchType, setMatchType] = useState(false);
   const [globalMatches, setGlobalMatches] = useState(null);
-  const { socket, setMatchKey } = useContext(SocketContext);
+  const { socket, setMatchKey, avatar, setAvatar } = useContext(SocketContext);
   if (!socket) window.location.href = "/";
 
   const searchForMatch = (e) => {
@@ -28,7 +28,7 @@ function Lobby() {
     navigate("/store");
   };
 
-  useEffect(() => {
+  useEffect(async () => {
     socket.on("joined-match", (matchKey) => {
       setMatchKey(matchKey);
       navigate("/match")
@@ -36,6 +36,11 @@ function Lobby() {
     socket.on("matches", (matches) => {
       setGlobalMatches(matches);
     });
+    await socket.on("avatar", data => {
+      setAvatar(data)
+      console.log(images)
+      console.log(images.data)
+    })
   }, [socket]);
 
   return (
@@ -51,7 +56,7 @@ function Lobby() {
               children={[
                 <img
                   key={1}
-                  src={images.pepe}
+                  src={images.items[avatar]}
                   className={"pepe"}
                   width={250}
                 ></img>,

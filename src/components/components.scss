@@ -38,6 +38,7 @@ h1 {
 .Lobby {
   display: flex;
   max-height: 80vh;
+  max-width: 70%;
   .vertical-container {
     display: flex;
     flex-direction: column;
@@ -118,6 +119,8 @@ h1 {
 .Store {
   display: flex;
   max-height: 80vh;
+  max-width: 70%;
+  margin-right: unset;
   .vertical-container {
     display: flex;
     flex-direction: column;
@@ -226,3 +229,6 @@ h1 {
     background-color: grey;
   }
 }
+// #flip {
+//   transform: rotateX(180deg);
+// }

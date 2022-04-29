@@ -60,6 +60,7 @@ h1 {
   display: -ms-flexbox;
   display: flex;
   max-height: 80vh;
+  max-width: 70%;
 }
 
 .Lobby .vertical-container {
@@ -183,6 +184,8 @@ h1 {
   display: -ms-flexbox;
   display: flex;
   max-height: 80vh;
+  max-width: 70%;
+  margin-right: unset;
 }
 
 .Store .vertical-container {

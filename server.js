@@ -32,7 +32,14 @@ app.post("/create", (req, res) => {
   console.log(username, password);
   const numOfUsers = Object.keys(users).length;
   const id = numOfUsers + 1;
-  const newUser = new User(id, username, password, 0, 0, 100, []);
+  const newUser = new User(
+    id,
+    username,
+    password,
+    100,
+    [],
+    "uncommon_black_hood_pepe"
+  );
   if (users[username]) {
     return res.sendStatus(400);
   } else {
@@ -47,14 +54,23 @@ const server = app.listen(PORT, () => {
 });
 
 class User {
-  constructor(id, username, password, wins, losses, currency, items) {
+  constructor(id, username, password, currency, items, avatar, matches) {
     (this.id = id),
       (this.username = username),
       (this.password = password),
-      (this.wins = wins),
-      (this.losses = losses),
       (this.currency = currency),
-      (this.items = items);
+      (this.items = items),
+      (this.avatar = avatar),
+      (this.matches = {
+        casual: {
+          wins: 0,
+          losses: 0,
+        },
+        wager: {
+          wins: 0,
+          losses: 0,
+        },
+      });
   }
 }
 class Match {
@@ -77,7 +93,7 @@ const casualQueue = [];
 const wagerQueue = [];
 const matches = [];
 
-const c = 500;
+const c = 250;
 const uc = 1000;
 const r = 2500;
 const i = 5000;
@@ -103,6 +119,9 @@ io.on("connection", (socket) => {
   console.log(socket.id);
   const { username } = socket.handshake.query;
   activeUsers[socket.id] = users[username];
+  if (users[username]) {
+    socket.emit("avatar", users[username].avatar);
+  }
 
   socket.on("purchase", (itemID) => {
     if (!store[itemID]) return console.log("this item doesn't exist.");
@@ -126,27 +145,27 @@ io.on("connection", (socket) => {
         {
           name: casualQueue[0].username,
           x: 0,
-          y: 400,
+          y: 250,
           w: 100,
           h: 150,
-          img: "image",
+          img: casualQueue[0].avatar,
           points: 0,
           earnings: 0,
         },
         {
           name: casualQueue[1].username,
           x: 500,
-          y: 400,
+          y: 250,
           w: 100,
           h: 150,
-          img: "image",
+          img: casualQueue[1].avatar,
           points: 0,
           earnings: 0,
         },
         { x: 100, y: 100, r: 4, velocity: { x: 2, y: -2 } },
         minutes(3),
         "started",
-        casualQueue[0] + casualQueue[1],
+        casualQueue[0].id + casualQueue[1].id,
         "casual"
       );
       matches.push(match);
@@ -160,9 +179,8 @@ function minutes(t) {
   return t * 60000;
 }
 setInterval(() => {
-
   matches.forEach((match) => {
     io.emit(`${match.matchKey}`, match);
-    console.log(match)
+    console.log(match);
   });
 }, 500);

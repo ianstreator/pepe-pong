@@ -7,6 +7,7 @@ export const SocketProvider = ({ children }) => {
   const [socket, setSocket] = useState(null);
   const [matchKey, setMatchKey] = useState(null);
   const [username, setUsername] = useState("");
+  const [avatar, setAvatar] = useState(null);
 
   const socketJoin = (username) => {
     setUsername(username);
@@ -24,6 +25,8 @@ export const SocketProvider = ({ children }) => {
         socketJoin,
         matchKey,
         setMatchKey,
+        avatar,
+        setAvatar,
       }}
     >
       {children}

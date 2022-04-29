@@ -11,7 +11,7 @@ import Card from "./shared/Card";
 import SocketContext from "../context/socketContext";
 
 function Store() {
-  const { socket } = useContext(SocketContext);
+  const { socket, avatar } = useContext(SocketContext);
   if (!socket) window.location.href = "/";
 
   const navigate = useNavigate();
@@ -29,7 +29,7 @@ function Store() {
   const storeItems = Object.entries(images.items).map((e, i) => {
     const title = e[0].split("_")[0];
     let cost;
-    if (title === "common") cost = 500;
+    if (title === "common") cost = 250;
     if (title === "uncommon") cost = 1000;
     if (title === "rare") cost = 2500;
     if (title === "impossible") cost = 5000;
@@ -86,7 +86,7 @@ function Store() {
               children={[
                 <img
                   key={1}
-                  src={images.pepe}
+                  src={images.items[avatar]}
                   className={"pepe"}
                   width={250}
                 ></img>,
