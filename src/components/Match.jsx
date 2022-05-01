@@ -1,7 +1,8 @@
 import images from "../images/export.js";
 import "./components.css";
 
-import { useContext, useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 import SocketContext from "../context/socketContext";
 
@@ -10,16 +11,17 @@ function Match() {
   if (!socket) window.location.href = "/";
   const [score, setScore] = useState([0, 0]);
   const [time, setTime] = useState(null);
-
-  const avatarA = document.createElement("img");
-  const avatarB = document.createElement("img");
-  let events = false;
+  const [avatarA, setAvatarA] = useState(<img />);
+  const [avatarB, setAvatarB] = useState(<img />);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const canvas = document.querySelector("canvas");
     const c = canvas.getContext("2d");
 
-    if (!events) {
+    socket.on("match-start", (data) => {
+      setAvatarA();
+      setAvatarB();
       window.addEventListener("keydown", (e) => {
         socket.emit("keydown", e.key);
       });
@@ -31,34 +33,22 @@ function Match() {
         const y = e.clientY - canvas.getBoundingClientRect().y;
         socket.emit("click", [x, y]);
       });
-      events = true;
-    }
+    });
 
     socket.on(`${matchKey}`, (matchData) => {
       const { playerA, playerB, ball, table } = matchData;
-      if (!avatarA.src) {
-        console.log("setting");
-        console.log(avatarA, avatarB);
-
-        avatarA.src = images.items[playerA.img]
-        avatarB.src = images.items[playerB.img]
-
-        console.log(avatarA, avatarB);
+      if (matchData.state === "finished") {
+        window.removeEventListener("keydown");
+        window.removeEventListener("keyup");
+        canvas.removeEventListener("click");
+        navigate("/lobby");
       }
 
       c.clearRect(0, 0, 600, 400);
       c.fillStyle = "white";
 
-      // c.translate(width, 0);
-      // c.scale(-1, 1);
-      // c.drawImage(image, 0, 0);
       c.drawImage(avatarA, playerA.x, playerA.y, playerA.w, playerA.h);
       c.drawImage(avatarB, playerB.x, playerB.y, playerB.w, playerB.h);
-    });
-    socket.on("game over", () => {
-      window.removeEventListener("keydown");
-      window.removeEventListener("keyup");
-      canvas.removeEventListener("click");
     });
   }, [socket]);
 

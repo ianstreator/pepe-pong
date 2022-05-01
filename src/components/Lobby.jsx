@@ -12,7 +12,7 @@ import { useNavigate } from "react-router-dom";
 
 function Lobby() {
   const [matchType, setMatchType] = useState(false);
-  const [globalMatches, setGlobalMatches] = useState(null);
+  const [wagerMatches, setWagerMatches] = useState(null);
   const { socket, setMatchKey, avatar, setAvatar } = useContext(SocketContext);
   if (!socket) window.location.href = "/";
 
@@ -31,16 +31,16 @@ function Lobby() {
   useEffect(async () => {
     socket.on("joined-match", (matchKey) => {
       setMatchKey(matchKey);
-      navigate("/match")
+      navigate("/match");
     });
     socket.on("matches", (matches) => {
-      setGlobalMatches(matches);
+      setWagerMatches(matches);
     });
-    await socket.on("avatar", data => {
-      setAvatar(data)
-      console.log(images)
-      console.log(images.data)
-    })
+    await socket.on("avatar", (data) => {
+      setAvatar(data);
+      console.log(images);
+      console.log(images.data);
+    });
   }, [socket]);
 
   return (
@@ -93,14 +93,27 @@ function Lobby() {
           ]}
         />
 
-        <Container key={3} className={"matches"} children={globalMatches === null ? null : globalMatches.map((match,i) => {
-              return <Card key={i} className={"match-card"} children={[
-                <img src={match.playerA.avatar} />,
-                <h2>{match.type}</h2>,
-                <img src={match.playerB.avatar} />
-
-              ]}/>
-        })} />
+        <Container
+          key={3}
+          className={"matches"}
+          children={
+            wagerMatches === null
+              ? null
+              : wagerMatches.map((match, i) => {
+                  return (
+                    <Card
+                      key={i}
+                      className={"match-card"}
+                      children={[
+                        <img src={match.playerA.avatar} />,
+                        <h2>{match.type}</h2>,
+                        <img src={match.playerB.avatar} />,
+                      ]}
+                    />
+                  );
+                })
+          }
+        />
       </div>
     </>
   );

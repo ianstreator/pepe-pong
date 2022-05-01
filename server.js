@@ -61,7 +61,7 @@ class User {
       (this.currency = currency),
       (this.items = items),
       (this.avatar = avatar),
-      (this.matches = {
+      (matches = {
         casual: {
           wins: 0,
           losses: 0,
@@ -73,17 +73,35 @@ class User {
       });
   }
 }
+const canvas = {
+  x: 0,
+  y: 0,
+  width: 600,
+  height: 400,
+};
 class Match {
-  constructor(playerA, playerB, ball, time, state, matchKey, type) {
-    (this.playerA = playerA),
-      (this.playerB = playerB),
-      (this.ball = ball),
-      (this.time = time),
-      (this.state = state),
-      (this.matchKey = matchKey),
-      (this.type = type);
+  constructor({ playerA, playerB, wager } = {}) {
+    (this.playerA = {
+      x: 0,
+      y: canvas.height - 100,
+      score: 0,
+    }),
+      (this.playerB = {
+        x: canvas.width - 60,
+        y: canvas.height - 100,
+        score: 0,
+      }),
+      (this.wager = wager || 0),
+      (this.ball = { x: 100, y: 100, r: 4, color: "white", lastPlayer }),
+      (this.table = {
+        x: canvas.width / 4,
+        y: canvas.height - 20,
+        width: canvas.width / 2,
+        height: 20,
+      }),
+      (this.state = "started");
   }
-  canvasData() {}
+  update() {}
 }
 
 const users = {};
@@ -135,52 +153,32 @@ io.on("connection", (socket) => {
   });
 
   socket.on("join-queue", (matchType) => {
-    console.log(matchType);
     matchType === "casual"
-      ? casualQueue.push(activeUsers[socket.id])
-      : wagerQueue.push(activeUsers[socket.id]);
-    console.log(wagerQueue, casualQueue);
+      ? casualQueue.push(activeUsers[socket.id].username)
+      : wagerQueue.push(activeUsers[socket.id].username);
     if (casualQueue.length > 1) {
-      const match = new Match(
-        {
-          name: casualQueue[0].username,
-          x: 0,
-          y: 250,
-          w: 100,
-          h: 150,
-          img: casualQueue[0].avatar,
-          points: 0,
-          earnings: 0,
-        },
-        {
-          name: casualQueue[1].username,
-          x: 500,
-          y: 250,
-          w: 100,
-          h: 150,
-          img: casualQueue[1].avatar,
-          points: 0,
-          earnings: 0,
-        },
-        { x: 100, y: 100, r: 4, velocity: { x: 2, y: -2 } },
-        minutes(3),
-        "started",
-        casualQueue[0].id + casualQueue[1].id,
-        "casual"
-      );
-      matches.push(match);
-      io.emit("joined-match", match.matchKey);
+      const casualMatch = new Match(casualQueue[0], casualQueue[1]);
+      matches.push(casualMatch);
       casualQueue.splice(0, 2);
+    } else if (wagerQueue.length > 1) {
+      const wagerA = activeUsers[wagerQueue[0]].currency;
+      const wagerB = activeUsers[wagerQueue[1]].currency;
+      const wager = wagerA < wagerB ? wagerA : wagerB;
+      const wagerMatch = new Match(wagerQueue[0], wagerQueue[1], wager / 2);
+      matches.push(wagerMatch);
+      wagerQueue.splice(0, 2);
     }
+  });
+
+  socket.on("keydown", (key) => {});
+  socket.on("keyup", (key) => {});
+  socket.on("click", (data) => {
+    const [x, y] = data;
   });
 });
 
-function minutes(t) {
-  return t * 60000;
-}
 setInterval(() => {
   matches.forEach((match) => {
     io.emit(`${match.matchKey}`, match);
-    console.log(match);
   });
 }, 500);
