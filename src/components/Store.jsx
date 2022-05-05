@@ -25,7 +25,29 @@ function Store() {
   const purchase = async () => {
     socket.emit("purchase", purchaseItem);
   };
+  function getImage(img) {
+    return images.items[img];
+  }
 
+  useEffect(() => {
+    socket.on("purchase-response", (data) => {
+      const [type, message] = data;
+      switch (type) {
+        case 1:
+          toast.info(message);
+          break;
+        case 2:
+          toast.success(message);
+          break;
+        case 3:
+          toast.error(message);
+          break;
+      }
+    });
+  }, [socket]);
+  function select(e) {
+    setPurchaseItem(e.target.value);
+  }
   const storeItems = Object.entries(images.items).map((e, i) => {
     const title = e[0].split("_")[0];
     let cost;
@@ -34,36 +56,21 @@ function Store() {
     if (title === "rare") cost = 2500;
     if (title === "impossible") cost = 5000;
 
-    function select() {
-      setPurchaseItem(
-        <Card
-          className={"purchase-card"}
-          children={<img key={i + 1} src={e[1]} width={125}></img>}
-        />
-      );
-    }
-
-    useEffect(() => {
-      socket.on("purchase-response", (data) => {
-        data
-          ? toast.success("item purchased!")
-          : toast.error("not enough funds..");
-      });
-    }, [socket]);
-
     return (
       <Card
         key={i}
         className={"item-card"}
-        onClick={select}
         children={[
           <h2 key={i} className={`item-title ${title}`}>
             {title}
           </h2>,
           <img key={i + 1} src={e[1]} width={75}></img>,
-          <h3 key={i + 2} className={"cost"}>
-            Cost: {cost}
-          </h3>,
+          <button
+            key={i + 2}
+            className={"cost"}
+            onClick={select}
+            value={e[0]}
+          >{`Cost: ${cost}`}</button>,
         ]}
       />
     );
@@ -86,7 +93,7 @@ function Store() {
               children={[
                 <img
                   key={1}
-                  src={images.items[avatar]}
+                  src={getImage(avatar)}
                   className={"pepe"}
                   width={250}
                 ></img>,
@@ -97,7 +104,10 @@ function Store() {
               key={2}
               className={"purchase-item"}
               children={[
-                <Card key={1} children={purchaseItem} />,
+                <Card
+                  key={1}
+                  children={<img src={getImage(purchaseItem)} width={125} />}
+                />,
                 <Container
                   key={2}
                   children={[

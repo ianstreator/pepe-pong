@@ -120,7 +120,7 @@ h1 {
   display: flex;
   max-height: 80vh;
   max-width: 70%;
-  margin-right: unset;
+  margin: unset;
   .vertical-container {
     display: flex;
     flex-direction: column;
@@ -197,15 +197,25 @@ h1 {
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: space-around;
+      justify-content: space-between;
       position: relative;
-      cursor: pointer;
       transition: 200ms;
       &:hover {
         background-color: rgba(0, 0, 0, 0.75);
       }
       .cost {
+        background-color: rgb(61, 61, 61);
         color: rgb(117, 187, 117);
+        width: unset;
+        height: unset;
+        padding: 0.25rem;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: 400ms;
+        &:hover {
+          color: rgb(146, 231, 146);
+        }
       }
       .item-title {
         color: white;
@@ -226,9 +236,6 @@ h1 {
 
 .Match {
   .canvas {
-    background-color: grey;
+    background-color: rgb(37, 37, 37);
   }
 }
-// #flip {
-//   transform: rotateX(180deg);
-// }

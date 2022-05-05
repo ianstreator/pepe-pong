@@ -55,10 +55,11 @@ function Login() {
         children={[
           <Input
             key={1}
-            type={"username"}
+            type={"text"}
             maxLength={10}
             onChange={handleTextChange}
             value={username}
+            placeholder={"Username"}
           />,
           <Input
             key={2}
@@ -66,6 +67,7 @@ function Login() {
             maxLength={20}
             onChange={handleTextChange}
             value={password}
+            placeholder={"Password"}
           />,
           <Container
             key={3}

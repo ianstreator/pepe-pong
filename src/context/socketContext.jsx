@@ -8,7 +8,8 @@ export const SocketProvider = ({ children }) => {
   const [matchKey, setMatchKey] = useState(null);
   const [username, setUsername] = useState("");
   const [avatar, setAvatar] = useState(null);
-
+  const [oppAvatar, setOppAvatar] = useState(null);
+  const [playerType, setPlayerType] = useState(null);
   const socketJoin = (username) => {
     setUsername(username);
     const user = io(undefined, {
@@ -27,6 +28,10 @@ export const SocketProvider = ({ children }) => {
         setMatchKey,
         avatar,
         setAvatar,
+        oppAvatar,
+        setOppAvatar,
+        playerType,
+        setPlayerType,
       }}
     >
       {children}

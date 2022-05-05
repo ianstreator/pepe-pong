@@ -7,6 +7,8 @@ import grey_hood_pepe from "./grey-hood-pepe.svg";
 import purple_hood_pepe from "./purple-hood-pepe.svg";
 import blue_hood_pepe from "./blue-hood-pepe.svg";
 
+import background from "./background.png";
+
 const items = {
   common_blue_pepe: blue_pepe,
   common_black_pepe: black_pepe,
@@ -18,4 +20,4 @@ const items = {
   uncommon_blue_hood_pepe: blue_hood_pepe,
 };
 
-export default { items };
+export default { items, background };

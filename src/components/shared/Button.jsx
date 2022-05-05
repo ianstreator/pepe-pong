@@ -6,7 +6,7 @@ const buttonDefaults = {
   cursor: "pointer",
   margin: "1rem",
   padding: "1rem",
-  fontFamily: "cursive",
+  fontFamily: "Sansita",
   fontSize: "1.5rem",
   transition: "300ms"
 };

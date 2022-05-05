@@ -185,7 +185,7 @@ h1 {
   display: flex;
   max-height: 80vh;
   max-width: 70%;
-  margin-right: unset;
+  margin: unset;
 }
 
 .Store .vertical-container {
@@ -320,10 +320,10 @@ h1 {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
-  -ms-flex-pack: distribute;
-      justify-content: space-around;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
   position: relative;
-  cursor: pointer;
   -webkit-transition: 200ms;
   transition: 200ms;
 }
@@ -333,7 +333,20 @@ h1 {
 }
 
 .Store .items .item-card .cost {
+  background-color: #3d3d3d;
   color: #75bb75;
+  width: unset;
+  height: unset;
+  padding: 0.25rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  -webkit-transition: 400ms;
+  transition: 400ms;
+}
+
+.Store .items .item-card .cost:hover {
+  color: #92e792;
 }
 
 .Store .items .item-card .item-title {
@@ -354,6 +367,6 @@ h1 {
 }
 
 .Match .canvas {
-  background-color: grey;
+  background-color: #252525;
 }
 /*# sourceMappingURL=components.css.map */

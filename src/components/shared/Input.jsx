@@ -17,7 +17,7 @@ function Input({ maxLength, type, placeholder, onChange, value }) {
       maxLength={maxLength}
       placeholder={placeholder}
       value={value}
-    ></input>
+    />
   );
 }
 

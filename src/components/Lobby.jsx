@@ -12,8 +12,9 @@ import { useNavigate } from "react-router-dom";
 
 function Lobby() {
   const [matchType, setMatchType] = useState(false);
-  const [wagerMatches, setWagerMatches] = useState(null);
-  const { socket, setMatchKey, avatar, setAvatar } = useContext(SocketContext);
+  const [globalMatches, setGlobalMatches] = useState(null);
+  const { socket, setMatchKey, avatar, setAvatar, setOppAvatar, setPlayerType } =
+    useContext(SocketContext);
   if (!socket) window.location.href = "/";
 
   const searchForMatch = (e) => {
@@ -28,20 +29,30 @@ function Lobby() {
     navigate("/store");
   };
 
-  useEffect(async () => {
-    socket.on("joined-match", (matchKey) => {
+  useEffect(() => {
+    socket.on("joined-match", (data) => {
+      const [matchKey, oppAvatar, playerType] = data;
+      console.log(playerType)
       setMatchKey(matchKey);
+      setOppAvatar(oppAvatar);
+      setPlayerType(playerType)
       navigate("/match");
     });
     socket.on("matches", (matches) => {
-      setWagerMatches(matches);
+      setGlobalMatches(matches);
     });
-    await socket.on("avatar", (data) => {
+    socket.on("avatar", (data) => {
       setAvatar(data);
       console.log(images);
       console.log(images.data);
     });
   }, [socket]);
+
+  let hide = null;
+  if (matchType !== false)
+    hide = {
+      display: "none",
+    };
 
   return (
     <>
@@ -78,6 +89,7 @@ function Lobby() {
                       children={"casual 😎"}
                       value={"casual"}
                       onClick={searchForMatch}
+                      style={hide}
                     />,
                     <Button
                       key={2}
@@ -85,6 +97,7 @@ function Lobby() {
                       children={"wager 🤑"}
                       value={"wager"}
                       onClick={searchForMatch}
+                      style={hide}
                     />,
                   ]}
                 />,
@@ -97,9 +110,9 @@ function Lobby() {
           key={3}
           className={"matches"}
           children={
-            wagerMatches === null
+            globalMatches === null
               ? null
-              : wagerMatches.map((match, i) => {
+              : globalMatches.map((match, i) => {
                   return (
                     <Card
                       key={i}
