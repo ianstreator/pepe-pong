@@ -88,9 +88,9 @@ class Player {
       (this.score = 0),
       (this.keys = {});
   }
-  update() {
-    if (keys["a"]) this.x -= 4;
-    if (keys["d"]) this.x += 4;
+  update(boundary1, boundary2) {
+    if (this.keys["a"] && this.x > boundary1) this.x -= 5;
+    if (this.keys["d"] && this.x + this.w < boundary2) this.x += 5;
   }
 }
 class Match {
@@ -120,6 +120,12 @@ class Match {
       (this.state = "started");
   }
   update() {
+    //....playerA table boundaries.....
+    this.playerA.update(canvas.x, this.table.x);
+
+    //....playerB table boundaries.....
+    this.playerB.update(this.table.x + this.table.w, canvas.w);
+
     //.....wall boundaries.....
     if (this.ball.x + this.ball.r > canvas.w || this.ball.x - this.ball.r < 0)
       this.ball.velocity.x = -this.ball.velocity.x;
@@ -201,6 +207,7 @@ const store = {
   uncommon_grey_hood_pepe: uc,
   uncommon_purple_hood_pepe: uc,
   uncommon_blue_hood_pepe: uc,
+  impossible_eye_patch_pepe: i,
 };
 
 const io = require("socket.io")(server);
@@ -242,11 +249,13 @@ function startMatch(matchType) {
       userB.avatar,
       "playerA",
     ]);
+    io.to(`${casualQueue[0]}`).emit("match-start", true);
     io.to(`${casualQueue[1]}`).emit("joined-match", [
       matchKey,
       userA.avatar,
       "playerB",
     ]);
+    io.to(`${casualQueue[1]}`).emit("match-start", true);
     casualQueue.splice(0, 2);
   } else {
     const userA = activeUsers[wagerQueue[0]];
@@ -263,11 +272,13 @@ function startMatch(matchType) {
       userB.avatar,
       "playerA",
     ]);
+    io.to(`${wagerQueue[0]}`).emit("match-start", true);
     io.to(`${wagerQueue[1]}`).emit("joined-match", [
       matchKey,
       userA.avatar,
       "playerB",
     ]);
+    io.to(`${wagerQueue[1]}`).emit("match-start", true);
     wagerQueue.splice(0, 2);
   }
 }
@@ -288,7 +299,6 @@ io.on("connection", (socket) => {
     joinQueue(socket, matchType);
     if (casualQueue.length > 1 || wagerQueue.length > 1) {
       startMatch(matchType);
-      socket.emit("match-start", true);
     }
   });
 
@@ -297,7 +307,7 @@ io.on("connection", (socket) => {
     console.log(matches);
     console.log(matchKey);
     console.log(playerType);
-    console.log(matches[matchKey[playerType]]);
+    console.log(matches[matchKey][playerType]);
     matches[matchKey][playerType].keys[key] = true;
   });
   socket.on("keyup", (data) => {
@@ -316,4 +326,4 @@ setInterval(() => {
     matches[match].update();
     io.emit(`${match}`, matches[match]);
   });
-}, 15);
+}, 30);

@@ -45,7 +45,7 @@ function Match() {
     const canvas = document.querySelector("canvas");
     const c = canvas.getContext("2d");
 
-    socket.on("match-start", (data) => {
+    socket.on("match-start", () => {
       window.addEventListener("keydown", (e) => {
         socket.emit("keydown", [e.key, matchKey, playerType]);
       });
@@ -60,8 +60,7 @@ function Match() {
     });
 
     socket.on(`${matchKey}`, (matchData) => {
-      const { playerA, playerB, ball, table, wager } = matchData;
-      console.log(playerA);
+      const { playerA, playerB, ball, wager } = matchData;
       if (matchData.state === "finished") {
         window.removeEventListener("keydown");
         window.removeEventListener("keyup");
