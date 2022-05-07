@@ -40,7 +40,7 @@ function Register() {
     const res = await fetch("http://localhost:4000/create", options);
     if (res.status === 400) {
       toast.error("that username is already taken.");
-    } else if (res.status === 200) {
+    } else if (res.status === 201) {
       toast.success("account created!");
       navigate("/");
     }

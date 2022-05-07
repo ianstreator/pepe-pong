@@ -4,8 +4,8 @@ const app = express();
 const routes = require("./router.js");
 const bodyparser = require("body-parser");
 const { match } = require("assert");
+const { stat } = require("fs");
 
-// app.use(bodyparser.urlencoded({ extended: false }));
 app.use(bodyparser.json());
 app.use("/assets", express.static(path.join(__dirname, "dist", "assets")));
 
@@ -18,9 +18,9 @@ routes.forEach((route) => {
 app.post("/login", (req, res) => {
   const { username, password } = req.body;
   console.log(username, password);
+  if (users[username].status) return res.sendStatus(409);
   if (users[username]) {
     if (users[username].password === password) {
-      // activeUsers[username] = users[username];
       return res.sendStatus(200);
     }
     return res.sendStatus(400);
@@ -37,15 +37,16 @@ app.post("/create", (req, res) => {
     id,
     username,
     password,
-    3000,
-    [],
-    "common_blue_pepe"
+    5000,
+    { common_blue_pepe: "common_blue_pepe" },
+    "common_blue_pepe",
+    false
   );
   if (users[username]) {
     return res.sendStatus(400);
   } else {
     users[username] = newUser;
-    return res.sendStatus(200);
+    return res.sendStatus(201);
   }
 });
 
@@ -60,15 +61,17 @@ class User {
     username = "",
     password = "",
     currency = 0,
-    items = [],
-    avatar = ""
+    items = {},
+    avatar = "",
+    status = false
   ) {
     (this.id = id),
       (this.username = username),
       (this.password = password),
       (this.currency = currency),
       (this.items = items),
-      (this.avatar = avatar);
+      (this.avatar = avatar),
+      (this.status = status);
   }
 }
 const canvas = {
@@ -212,17 +215,17 @@ const store = {
 
 const io = require("socket.io")(server);
 
-function purchaseItem(socket, itemID) {
+function purchaseItem(user, itemID, socket) {
   if (!store[itemID]) return console.log("this item doesn't exist.");
-  if (activeUsers[socket.id].items.some((e) => e === itemID)) {
+  if (user.items[itemID]) {
     return socket.emit("purchase-response", [1, "you already own this item."]);
   }
-  if (activeUsers[socket.id].currency >= store[itemID]) {
-    console.log(activeUsers[socket.id].currency);
-    activeUsers[socket.id].currency -= store[itemID];
-    console.log(activeUsers[socket.id].currency);
-    activeUsers[socket.id].items.push(itemID);
+  if (user.currency >= store[itemID]) {
+    user.currency -= store[itemID];
+    user.items[itemID] = itemID;
     socket.emit("purchase-response", [2, "Purchase successful!"]);
+    const userAvatars = Object.values(user.items);
+    socket.emit("my-items", userAvatars);
   } else {
     socket.emit("purchase-response", [3, "Not enough funds.."]);
   }
@@ -238,10 +241,10 @@ function startMatch(matchType) {
   const matchKey = `${Object.keys(matches).length}`;
 
   if (matchType === "casual") {
-    const userA = activeUsers[casualQueue[0]].username;
-    const userB = activeUsers[casualQueue[1]].username;
-    const playerA = new Player(userA, 0);
-    const playerB = new Player(userB, canvas.w - 100);
+    const userA = activeUsers[casualQueue[0]];
+    const userB = activeUsers[casualQueue[1]];
+    const playerA = new Player(userA.username, 0);
+    const playerB = new Player(userB.username, canvas.w - 100);
     const casualMatch = new Match(playerA, playerB, null);
     matches[matchKey] = casualMatch;
     io.to(`${casualQueue[0]}`).emit("joined-match", [
@@ -286,13 +289,29 @@ function startMatch(matchType) {
 io.on("connection", (socket) => {
   console.log(socket.id);
   const { username } = socket.handshake.query;
-  activeUsers[socket.id] = users[username];
   if (users[username]) {
-    socket.emit("avatar", users[username].avatar);
+    console.log(users[username])
+    users[username].status = true;
+  }
+  activeUsers[socket.id] = users[username];
+  const user = activeUsers[socket.id];
+
+  if (user) {
+    console.log(user.items);
+    const userAvatars = Object.values(user.items);
+    socket.emit("avatar", [user.avatar, userAvatars]);
   }
 
   socket.on("purchase", (itemID) => {
-    purchaseItem(socket, itemID);
+    purchaseItem(user, itemID, socket);
+    
+  });
+
+  socket.on("change-avatar", (itemID) => {
+    if (user.items[itemID]) {
+      user.avatar = itemID;
+      socket.emit("set-new-avatar", user.avatar);
+    }
   });
 
   socket.on("join-queue", (matchType) => {
@@ -302,21 +321,20 @@ io.on("connection", (socket) => {
     }
   });
 
+  //.....match inputs.....
   socket.on("keydown", (data) => {
     const [key, matchKey, playerType] = data;
-    console.log(matches);
-    console.log(matchKey);
-    console.log(playerType);
-    console.log(matches[matchKey][playerType]);
     matches[matchKey][playerType].keys[key] = true;
   });
   socket.on("keyup", (data) => {
     const [key, matchKey, playerType] = data;
-
     delete matches[matchKey][playerType].keys[key];
   });
   socket.on("click", (data) => {
     const [x, y, matchKey, playerType] = data;
+  });
+  socket.on("disconnect", () => {
+    users[username].status = false;
   });
 });
 

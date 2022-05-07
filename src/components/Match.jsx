@@ -14,8 +14,14 @@ function Match() {
   const [time, setTime] = useState(null);
   const avatarA = document.createElement("img");
   const avatarB = document.createElement("img");
-  avatarA.src = `${images.items[avatar]}`;
-  avatarB.src = `${images.items[oppAvatar]}`;
+  if (playerType === "playerA") {
+    avatarA.src = `${images.items[avatar]}`;
+    avatarB.src = `${images.items[oppAvatar]}`;
+  } else {
+    avatarB.src = `${images.items[avatar]}`;
+    avatarA.src = `${images.items[oppAvatar]}`;
+  }
+
   const background = document.createElement("img");
   background.src = images.background;
 

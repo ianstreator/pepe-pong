@@ -41,6 +41,10 @@ function Login() {
       toast.error("username or password was invalid..");
       setUsername("");
       setPassword("");
+    } else if (res.status === 409) {
+      toast.error(
+        "this account has been disabled, please contact support about it's status."
+      );
     } else if (res.status === 200) {
       await socketJoin(username);
       navigate("/lobby");

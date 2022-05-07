@@ -13,7 +13,7 @@ import { useNavigate } from "react-router-dom";
 function Lobby() {
   const [matchType, setMatchType] = useState(false);
   const [globalMatches, setGlobalMatches] = useState(null);
-  const { socket, setMatchKey, avatar, setAvatar, setOppAvatar, setPlayerType } =
+  const { socket, setMatchKey, avatar, setAvatar, setOppAvatar, setPlayerType, setMyItems } =
     useContext(SocketContext);
   if (!socket) window.location.href = "/";
 
@@ -42,9 +42,11 @@ function Lobby() {
       setGlobalMatches(matches);
     });
     socket.on("avatar", (data) => {
-      setAvatar(data);
-      console.log(images);
-      console.log(images.data);
+      const [avatar, myItems] = data
+      console.log(data)
+      console.log(myItems)
+      setAvatar(avatar);
+      setMyItems(myItems)
     });
   }, [socket]);
 

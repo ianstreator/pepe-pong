@@ -10,6 +10,7 @@ export const SocketProvider = ({ children }) => {
   const [avatar, setAvatar] = useState(null);
   const [oppAvatar, setOppAvatar] = useState(null);
   const [playerType, setPlayerType] = useState(null);
+  const [myItems, setMyItems] = useState(null);
   const socketJoin = (username) => {
     setUsername(username);
     const user = io(undefined, {
@@ -32,6 +33,8 @@ export const SocketProvider = ({ children }) => {
         setOppAvatar,
         playerType,
         setPlayerType,
+        myItems,
+        setMyItems
       }}
     >
       {children}
