@@ -1,6 +1,8 @@
 import { toast } from "react-toastify";
 import { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
+import constants from "../../constants.cjs";
+const {purchaseResponses} = constants
 
 import images from "../images/export.js";
 
@@ -13,37 +15,19 @@ import SocketContext from "../context/socketContext";
 function Store() {
   const { socket, avatar, setAvatar, myItems, setMyItems } =
     useContext(SocketContext);
-  if (!socket) window.location.href = "/";
-
-  const navigate = useNavigate();
-  const navLobby = () => {
-    navigate("/lobby");
-  };
   const [purchaseItem, setPurchaseItem] = useState("select an item");
-  const cancel = () => {
-    setPurchaseItem("select an item");
-  };
-  const purchase = async () => {
-    socket.emit("purchase", purchaseItem);
-  };
-  function getImage(img) {
-    return images.items[img];
-  }
+  const navigate = useNavigate();
+
+  if (!socket) window.location.href = "/";
 
   useEffect(() => {
     socket.on("purchase-response", (data) => {
-      const [type, message] = data;
-      switch (type) {
-        case 1:
-          toast.info(message);
-          break;
-        case 2:
-          toast.success(message);
-          break;
-        case 3:
-          toast.error(message);
-          break;
-      }
+      if (data === purchaseResponses.OWNED)
+        return toast.info("You already own this item.");
+      if (data === purchaseResponses.SUCCESSFUL)
+        return toast.success("Purchase successful!");
+      if (data === purchaseResponses.INSUFFICIENT_FUNDS)
+        return toast.error("You have insufficient funds...");
     });
     socket.on("my-items", (data) => {
       setMyItems(data);
@@ -51,20 +35,34 @@ function Store() {
     socket.on("set-new-avatar", (data) => {
       setAvatar(data);
     });
+    return () => {
+      socket.off("purchase-response");
+      socket.off("set-new-avatar");
+      socket.off("my-items");
+    };
   }, [socket]);
+
+  const navLobby = () => {
+    navigate("/lobby");
+  };
+  function getImage(img) {
+    return images.items[img];
+  }
+  const cancel = () => {
+    setPurchaseItem("select an item");
+  };
+  const purchase = () => {
+    socket.emit("purchase", purchaseItem);
+  };
+
   function select(e) {
     setPurchaseItem(e.target.value);
   }
   function equip(e) {
-    console.log(e.target.value)
     socket.emit("change-avatar", e.target.value);
   }
-  // console.log(myItems);
   const storeItems = Object.entries(images.items).map((e, i) => {
-    console.log(myItems);
-    console.log(e[0]);
-    console.log(myItems[e[0]]);
-    if (myItems.some(item => item  === e[0])) {
+    if (myItems.some((item) => item === e[0])) {
       return (
         <Card
           key={i}

@@ -1,54 +1,64 @@
 import images from "../images/export.js";
-
+// import { toast } from "react-toastify";
 import { useContext, useState, useEffect } from "react";
-
-import SocketContext from "../context/socketContext";
+import { useNavigate } from "react-router-dom";
 
 import Container from "./shared/Container";
 import Button from "./shared/Button";
 import Card from "./shared/Card";
-import { toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
+
+import SocketContext from "../context/socketContext";
 
 function Lobby() {
+  const {
+    socket,
+    setMatchKey,
+    avatar,
+    setAvatar,
+    setOppAvatar,
+    setPlayerType,
+    setMyItems,
+  } = useContext(SocketContext);
   const [matchType, setMatchType] = useState(false);
   const [globalMatches, setGlobalMatches] = useState(null);
-  const { socket, setMatchKey, avatar, setAvatar, setOppAvatar, setPlayerType, setMyItems } =
-    useContext(SocketContext);
-  if (!socket) window.location.href = "/";
+  const navigate = useNavigate();
 
-  const searchForMatch = (e) => {
-    setMatchType(e.target.value);
-  };
+  if (!socket) window.location.href = "/";
   if (matchType) {
     socket.emit("join-queue", matchType);
     setMatchType(false);
   }
-  const navigate = useNavigate();
-  const navStore = () => {
-    navigate("/store");
-  };
 
   useEffect(() => {
     socket.on("joined-match", (data) => {
       const [matchKey, oppAvatar, playerType] = data;
-      console.log(playerType)
       setMatchKey(matchKey);
       setOppAvatar(oppAvatar);
-      setPlayerType(playerType)
+      setPlayerType(playerType);
       navigate("/match");
     });
     socket.on("matches", (matches) => {
       setGlobalMatches(matches);
     });
     socket.on("avatar", (data) => {
-      const [avatar, myItems] = data
-      console.log(data)
-      console.log(myItems)
+      const [avatar, myItems] = data;
       setAvatar(avatar);
-      setMyItems(myItems)
+      setMyItems(myItems);
     });
+    return () => {
+      socket.off("joined-match");
+      socket.off("matches");
+      socket.off("avatar");
+    }
   }, [socket]);
+
+  const navStore = () => {
+    navigate("/store");
+  };
+
+  const searchForMatch = (e) => {
+    setMatchType(e.target.value);
+  };
 
   let hide = null;
   if (matchType !== false)

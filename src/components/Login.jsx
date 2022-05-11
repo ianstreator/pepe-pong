@@ -6,20 +6,19 @@ import Container from "./shared/Container";
 import Input from "./shared/Input";
 import Button from "./shared/Button";
 import SocketContext from "../context/socketContext";
+import API_BASE_URL from "./constants.js";
 
 function Login() {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const { socketJoin } = useContext(SocketContext);
-  const handleTextChange = (e) => {
-    e.target.type === "password"
-      ? setPassword(e.target.value)
-      : setUsername(e.target.value);
-    if (e.target.value === "hello") {
-      e.target.value = "";
-    }
-  };
-  let navigate = useNavigate();
+  // const [username, setUsername] = useState("");
+  // const [password, setPassword] = useState("");
+  const { socketJoin, username, password, handleTextChange } =
+    useContext(SocketContext);
+  // const handleTextChange = (e) => {
+  //   e.target.type === "password"
+  //     ? setPassword(e.target.value)
+  //     : setUsername(e.target.value);
+  // };
+  const navigate = useNavigate();
   const nav = () => {
     navigate("/register");
   };
@@ -36,7 +35,7 @@ function Login() {
   };
   const login = async () => {
     if (username === "" || password === "") return;
-    const res = await fetch("http://localhost:4000/login", options);
+    const res = await fetch(`${API_BASE_URL}login`, options);
     if (res.status === 400) {
       toast.error("username or password was invalid..");
       setUsername("");

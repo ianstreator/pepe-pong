@@ -1,19 +1,16 @@
 const express = require("express");
 const path = require("path");
 const app = express();
-const routes = require("./router.js");
 const bodyparser = require("body-parser");
-const { match } = require("assert");
-const { stat } = require("fs");
+const cors = require("cors");
+const constants = require("./constants.cjs");
+
+const isProduction = process.env.NODE_ENV === "production";
 
 app.use(bodyparser.json());
-app.use("/assets", express.static(path.join(__dirname, "dist", "assets")));
-
-routes.forEach((route) => {
-  app.get(`${route}`, (req, res) => {
-    res.sendFile(path.join(__dirname, "dist", "index.html"));
-  });
-});
+if (!isProduction) {
+  app.use(cors());
+}
 
 app.post("/login", (req, res) => {
   const { username, password } = req.body;
@@ -49,6 +46,14 @@ app.post("/create", (req, res) => {
     return res.sendStatus(201);
   }
 });
+
+if (isProduction) {
+  app.use("/assets", express.static(path.join(__dirname, "dist", "assets")));
+
+  app.get("*", (req, res) => {
+    res.sendFile(path.join(__dirname, "dist", "index.html"));
+  });
+}
 
 const PORT = process.env.PORT || 4000;
 const server = app.listen(PORT, () => {
@@ -210,24 +215,36 @@ const store = {
   uncommon_grey_hood_pepe: uc,
   uncommon_purple_hood_pepe: uc,
   uncommon_blue_hood_pepe: uc,
+  rare_white_backpack_pepe: r,
+  rare_beige_backpack_pepe: r,
   impossible_eye_patch_pepe: i,
 };
 
-const io = require("socket.io")(server);
+const socketConfig = {};
+if (!isProduction) {
+  socketConfig.cors = { origin: "*" };
+}
+const io = require("socket.io")(server, socketConfig);
 
 function purchaseItem(user, itemID, socket) {
+  console.log("called");
+  console.log(activeUsers[socket.id]);
   if (!store[itemID]) return console.log("this item doesn't exist.");
   if (user.items[itemID]) {
-    return socket.emit("purchase-response", [1, "you already own this item."]);
+    return socket.emit("purchase-response", constants.purchaseResponses.OWNED);
   }
   if (user.currency >= store[itemID]) {
     user.currency -= store[itemID];
     user.items[itemID] = itemID;
-    socket.emit("purchase-response", [2, "Purchase successful!"]);
+    socket.emit("purchase-response", constants.purchaseResponses.SUCCESSFUL);
     const userAvatars = Object.values(user.items);
     socket.emit("my-items", userAvatars);
   } else {
-    socket.emit("purchase-response", [3, "Not enough funds.."]);
+    console.log("hit");
+    return socket.emit(
+      "purchase-response",
+      constants.purchaseResponses.INSUFFICIENT_FUNDS
+    );
   }
 }
 
@@ -290,7 +307,7 @@ io.on("connection", (socket) => {
   console.log(socket.id);
   const { username } = socket.handshake.query;
   if (users[username]) {
-    console.log(users[username])
+    console.log(users[username]);
     users[username].status = true;
   }
   activeUsers[socket.id] = users[username];
@@ -304,7 +321,6 @@ io.on("connection", (socket) => {
 
   socket.on("purchase", (itemID) => {
     purchaseItem(user, itemID, socket);
-    
   });
 
   socket.on("change-avatar", (itemID) => {
@@ -334,6 +350,7 @@ io.on("connection", (socket) => {
     const [x, y, matchKey, playerType] = data;
   });
   socket.on("disconnect", () => {
+    console.log(users);
     users[username].status = false;
   });
 });

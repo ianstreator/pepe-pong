@@ -7,6 +7,8 @@ import grey_hood_pepe from "./grey-hood-pepe.svg";
 import purple_hood_pepe from "./purple-hood-pepe.svg";
 import blue_hood_pepe from "./blue-hood-pepe.svg";
 import eye_patch_pepe from "./eye-patch-pepe.svg";
+import white_backpack_pepe from "./white-backpack-pepe.svg";
+import beige_backpack_pepe from "./beige-backpack-pepe.svg";
 
 import background from "./background.png";
 
@@ -19,7 +21,10 @@ const items = {
   uncommon_grey_hood_pepe: grey_hood_pepe,
   uncommon_purple_hood_pepe: purple_hood_pepe,
   uncommon_blue_hood_pepe: blue_hood_pepe,
+  rare_white_backpack_pepe: white_backpack_pepe,
+  rare_beige_backpack_pepe: beige_backpack_pepe,
   impossible_eye_patch_pepe: eye_patch_pepe,
+ 
 };
 
 export default { items, background };

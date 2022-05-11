@@ -1,25 +1,24 @@
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { toast } from "react-toastify";
+import SocketContext from "../context/socketContext";
 
 import Container from "./shared/Container";
 import Input from "./shared/Input";
 import Button from "./shared/Button";
+import constants from "./constants.js";
 
 function Register() {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const handleTextChange = (e) => {
-    e.target.type === "password"
-      ? setPassword(e.target.value)
-      : setUsername(e.target.value);
-  };
+  const { handleTextChange, username, setUsername, password, setPassword } =
+    useContext(SocketContext);
   const handleConfirmPass = (e) => {
     setConfirmPassword(e.target.value);
   };
-  let navigate = useNavigate();
+  const navigate = useNavigate();
   const navBack = () => {
+    setUsername("");
+    setPassword("");
     navigate("/");
   };
   const data = {
@@ -34,36 +33,24 @@ function Register() {
     body: JSON.stringify(data),
   };
   const create = async () => {
-    if (username === "" || password === "" || confirmPassword === "") return toast.info("please fill out all fields.");
+    //...check ability to send to server....
+    console.log(password, confirmPassword);
+    if (username === "" || password === "" || confirmPassword === "")
+      return toast.info("please fill out all fields.");
     if (password !== confirmPassword)
       return toast.error("passwords do not match.");
-    const res = await fetch("http://localhost:4000/create", options);
+    //...sending to server.....
+    const res = await fetch(`${constants.API_BASE_URL}create`, options);
     if (res.status === 400) {
       toast.error("that username is already taken.");
     } else if (res.status === 201) {
       toast.success("account created!");
       navigate("/");
     }
+    setUsername("");
+    setPassword("");
   };
-  // const toasty = () => {
-  //   const create = () => {
-  //     const newUser = new Promise((res, rej) => {
-  //       setTimeout(() => {
-  //         if (Math.random() < 0.5) {
-  //           res();
-  //         } else {
-  //           rej();
-  //         }
-  //       }, 2000);
-  //     });
-  //     return newUser;
-  //   };
-  //   toast.promise(create, {
-  //     pending: "pending...",
-  //     success: "success!",
-  //     error: "[error]",
-  //   });
-  // };
+
   return (
     <>
       <h1>Register</h1>

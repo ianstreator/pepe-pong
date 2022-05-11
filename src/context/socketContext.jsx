@@ -1,16 +1,23 @@
 import { createContext, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+
+
 import { io } from "https://cdn.socket.io/4.3.2/socket.io.esm.min.js";
 
 const SocketContext = createContext();
 
 export const SocketProvider = ({ children }) => {
   const [socket, setSocket] = useState(null);
-  const [matchKey, setMatchKey] = useState(null);
+  const [matchKey, setMatchKey] = useState("");
   const [username, setUsername] = useState("");
-  const [avatar, setAvatar] = useState(null);
-  const [oppAvatar, setOppAvatar] = useState(null);
-  const [playerType, setPlayerType] = useState(null);
+  const [password, setPassword] = useState("");
+  const [avatar, setAvatar] = useState("");
+  const [oppAvatar, setOppAvatar] = useState("");
+  const [playerType, setPlayerType] = useState("");
   const [myItems, setMyItems] = useState(null);
+  // let navigate = useNavigate();
+
   const socketJoin = (username) => {
     setUsername(username);
     const user = io(undefined, {
@@ -18,11 +25,21 @@ export const SocketProvider = ({ children }) => {
     });
     setSocket(user);
   };
+  const handleTextChange = (e) => {
+    console.log(e.target.value, "inside context");
+    console.log(password);
+    e.target.type === "password"
+      ? setPassword(e.target.value)
+      : setUsername(e.target.value);
+  };
 
   return (
     <SocketContext.Provider
       value={{
         username,
+        setUsername,
+        password,
+        setPassword,
         socket,
         socketJoin,
         matchKey,
@@ -34,7 +51,8 @@ export const SocketProvider = ({ children }) => {
         playerType,
         setPlayerType,
         myItems,
-        setMyItems
+        setMyItems,
+        handleTextChange,
       }}
     >
       {children}
