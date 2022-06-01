@@ -1,9 +1,15 @@
-const express = require("express");
-const path = require("path");
+import express from "express";
+import path from "path";
+import { fileURLToPath } from "url";
+import bodyparser from "body-parser";
+import cors from "cors";
+import { v4 as uuidv4 } from "uuid";
+import { Server } from "socket.io";
+import constants from "./constants.js";
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+console.log(uuidv4());
 const app = express();
-const bodyparser = require("body-parser");
-const cors = require("cors");
-const constants = require("./constants.cjs");
 
 const isProduction = process.env.NODE_ENV === "production";
 
@@ -15,12 +21,12 @@ if (!isProduction) {
 app.post("/login", (req, res) => {
   const { username, password } = req.body;
   console.log(username, password);
-  if (users[username].status) return res.sendStatus(409);
   if (users[username]) {
     if (users[username].password === password) {
+      // if (users[username].status) return res.sendStatus(409);
+      users[username].status = uuidv4();
       return res.sendStatus(200);
     }
-    return res.sendStatus(400);
   }
   return res.sendStatus(400);
 });
@@ -37,7 +43,7 @@ app.post("/create", (req, res) => {
     5000,
     { common_blue_pepe: "common_blue_pepe" },
     "common_blue_pepe",
-    false
+    null
   );
   if (users[username]) {
     return res.sendStatus(400);
@@ -68,7 +74,7 @@ class User {
     currency = 0,
     items = {},
     avatar = "",
-    status = false
+    status = null
   ) {
     (this.id = id),
       (this.username = username),
@@ -201,30 +207,31 @@ const casualQueue = [];
 const wagerQueue = [];
 const matches = {};
 
-const c = 250;
-const uc = 1000;
-const r = 2500;
-const i = 5000;
+//....Store prices.....
+const common = 250;
+const uncommon = 1000;
+const rare = 2500;
+const impossible = 5000;
 
 const store = {
-  common_blue_pepe: c,
-  common_black_pepe: c,
-  common_orange_pepe: c,
-  common_purple_pepe: c,
-  uncommon_black_hood_pepe: uc,
-  uncommon_grey_hood_pepe: uc,
-  uncommon_purple_hood_pepe: uc,
-  uncommon_blue_hood_pepe: uc,
-  rare_white_backpack_pepe: r,
-  rare_beige_backpack_pepe: r,
-  impossible_eye_patch_pepe: i,
+  common_blue_pepe: common,
+  common_black_pepe: common,
+  common_orange_pepe: common,
+  common_purple_pepe: common,
+  uncommon_black_hood_pepe: uncommon,
+  uncommon_grey_hood_pepe: uncommon,
+  uncommon_purple_hood_pepe: uncommon,
+  uncommon_blue_hood_pepe: uncommon,
+  rare_white_backpack_pepe: rare,
+  rare_beige_backpack_pepe: rare,
+  impossible_eye_patch_pepe: impossible,
 };
 
 const socketConfig = {};
 if (!isProduction) {
   socketConfig.cors = { origin: "*" };
 }
-const io = require("socket.io")(server, socketConfig);
+const io = new Server(server, socketConfig);
 
 function purchaseItem(user, itemID, socket) {
   console.log("called");

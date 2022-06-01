@@ -6,16 +6,21 @@ import SocketContext from "../context/socketContext";
 import Container from "./shared/Container";
 import Input from "./shared/Input";
 import Button from "./shared/Button";
-import constants from "./constants.js";
+import { API_BASE_URL } from "../constants";
 
 function Register() {
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [type, setType] = useState("password");
+  const [password_hide_state, setPassword_hide_state] =
+    useState("Show Passwords");
+
   const { handleTextChange, username, setUsername, password, setPassword } =
     useContext(SocketContext);
+  const navigate = useNavigate();
+
   const handleConfirmPass = (e) => {
     setConfirmPassword(e.target.value);
   };
-  const navigate = useNavigate();
   const navBack = () => {
     setUsername("");
     setPassword("");
@@ -33,22 +38,26 @@ function Register() {
     body: JSON.stringify(data),
   };
   const create = async () => {
-    //...check ability to send to server....
-    console.log(password, confirmPassword);
     if (username === "" || password === "" || confirmPassword === "")
       return toast.info("please fill out all fields.");
-    if (password !== confirmPassword)
+    if (password !== confirmPassword) {
+      setPassword("");
+      setConfirmPassword("");
       return toast.error("passwords do not match.");
-    //...sending to server.....
-    const res = await fetch(`${constants.API_BASE_URL}create`, options);
+    }
+    const res = await fetch(`${API_BASE_URL}create`, options);
     if (res.status === 400) {
       toast.error("that username is already taken.");
     } else if (res.status === 201) {
       toast.success("account created!");
       navigate("/");
     }
-    setUsername("");
-    setPassword("");
+  };
+  const showPasswords = () => {
+    type === "password" ? setType("text") : setType("password");
+    password_hide_state === "Show Passwords"
+      ? setPassword_hide_state("Hide Passwords")
+      : setPassword_hide_state("Show Passwords");
   };
 
   return (
@@ -66,7 +75,7 @@ function Register() {
           />,
           <Input
             key={2}
-            type={"password"}
+            type={type}
             maxLength={20}
             onChange={handleTextChange}
             value={password}
@@ -74,17 +83,30 @@ function Register() {
           />,
           <Input
             key={3}
-            type={"password"}
+            type={type}
             maxLength={20}
             onChange={handleConfirmPass}
             value={confirmPassword}
             placeholder={"Confirm password"}
           />,
+          <div key={4} className={"check-box"}>
+            <p key={1} className={"check-box-message"}>
+              {password_hide_state}
+            </p>
+            ,
+            <input
+              key={2}
+              className={"box"}
+              type={"checkbox"}
+              onClick={showPasswords}
+            />
+          </div>,
+
           <Container
-            key={4}
+            key={5}
             children={[
-              <Button key={1} children={"Cancel"} onClick={navBack} />,
               <Button key={2} children={"Create"} onClick={create} />,
+              <Button key={1} children={"Cancel"} onClick={navBack} />,
             ]}
           />,
         ]}

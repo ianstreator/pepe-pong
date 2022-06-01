@@ -8,4 +8,4 @@ const constants = {
   purchaseResponses
 }
 
-module.exports = constants;
+export default constants;

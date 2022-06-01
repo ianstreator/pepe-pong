@@ -8,7 +8,7 @@ const inputDefaults = {
   margin: "1rem",
 };
 
-function Input({ maxLength, type, placeholder, onChange, value }) {
+function Input({ maxLength, type, placeholder, onChange, value, children }) {
   return (
     <input
       onChange={onChange}
@@ -17,6 +17,7 @@ function Input({ maxLength, type, placeholder, onChange, value }) {
       maxLength={maxLength}
       placeholder={placeholder}
       value={value}
+      children={children}
     />
   );
 }

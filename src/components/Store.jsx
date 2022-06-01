@@ -1,7 +1,7 @@
 import { toast } from "react-toastify";
 import { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import constants from "../../constants.cjs";
+import constants from "../../constants";
 const {purchaseResponses} = constants
 
 import images from "../images/export.js";

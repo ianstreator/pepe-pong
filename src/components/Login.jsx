@@ -6,7 +6,7 @@ import Container from "./shared/Container";
 import Input from "./shared/Input";
 import Button from "./shared/Button";
 import SocketContext from "../context/socketContext";
-import API_BASE_URL from "./constants.js";
+import { API_BASE_URL } from "../constants";
 
 function Login() {
   // const [username, setUsername] = useState("");

@@ -4,6 +4,7 @@ import { toast } from "react-toastify";
 
 
 import { io } from "https://cdn.socket.io/4.3.2/socket.io.esm.min.js";
+import { API_BASE_URL } from "../constants";
 
 const SocketContext = createContext();
 
@@ -20,14 +21,12 @@ export const SocketProvider = ({ children }) => {
 
   const socketJoin = (username) => {
     setUsername(username);
-    const user = io(undefined, {
+    const user = io(API_BASE_URL, {
       query: { username },
     });
     setSocket(user);
   };
   const handleTextChange = (e) => {
-    console.log(e.target.value, "inside context");
-    console.log(password);
     e.target.type === "password"
       ? setPassword(e.target.value)
       : setUsername(e.target.value);
